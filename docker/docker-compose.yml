@@ -1,4 +1,9 @@
 version: "3.9"
+
+networks:
+  app-network:
+    driver: bridge
+
 services:
   app:
     build:
@@ -9,3 +14,11 @@ services:
       - "8080:80"
     volumes:
       - ../backend/:/opt/app/api
+    networks:
+      - app-network
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - app-network
