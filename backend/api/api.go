@@ -1,13 +1,29 @@
 package api
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+	"shorturl/backend/core"
+	"strconv"
+)
 
 func InitApi() {
-	http.HandleFunc("/api/json", handleJson)
+	http.HandleFunc("/api/store", storeUrl)
 }
 
-func handleJson(writer http.ResponseWriter, request *http.Request) {
+func storeUrl(writer http.ResponseWriter, request *http.Request) {
+	if request.Method != http.MethodPost {
+		http.Error(writer, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	writer.Header().Set("Content-Type", "application/json")
-	response := `{"status": "OK"}`
+
+	fullUrl := request.FormValue("FullUrl")
+	expiresAfter := request.FormValue("ExpiresAfter")
+	expiry, _ := strconv.ParseInt(expiresAfter, 0, 64)
+	data := core.UrlData{fullUrl, "http://localhost:8080/adfgttbrwetfwef", expiry}
+	response, _ := json.Marshal(data)
+
 	writer.Write([]byte(response))
 }
