@@ -17,13 +17,11 @@ func storeUrl(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	writer.Header().Set("Content-Type", "application/json")
-
 	fullUrl := request.FormValue("FullUrl")
 	expiresAfter := request.FormValue("ExpiresAfter")
-	expiry, _ := strconv.ParseInt(expiresAfter, 0, 64)
-	data := core.UrlData{fullUrl, "http://localhost:8080/adfgttbrwetfwef", expiry}
-	response, _ := json.Marshal(data)
+	expiresAfterInt, _ := strconv.ParseInt(expiresAfter, 0, 64)
 
-	writer.Write([]byte(response))
+	urlData, _ := json.Marshal(core.BuildUrlData(fullUrl, expiresAfterInt))
+	writer.Header().Set("Content-Type", "application/json")
+	writer.Write([]byte(urlData))
 }
