@@ -2,7 +2,7 @@ package db
 
 import "math/rand"
 
-func ReadFullUrl(db Database, shortUrl string) (string, error) {
+func ReadFullUrl(db *Database, shortUrl string) (string, error) {
 	val, err := db.Client.Get(Ctx, shortUrl).Result()
 	if err != nil {
 		return "", err
@@ -11,7 +11,7 @@ func ReadFullUrl(db Database, shortUrl string) (string, error) {
 	return val, nil
 }
 
-func WriteFullUrl(db Database, fullUrl string) (string, error) {
+func WriteFullUrl(db *Database, fullUrl string) (string, error) {
 	shortUrl := generateRandomUrl()
 	err := db.Client.Set(Ctx, shortUrl, fullUrl, 0).Err()
 	if err != nil {

@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"shorturl/backend/api"
+	"shorturl/backend/core"
 	"shorturl/backend/db"
 	"shorturl/backend/web"
 )
@@ -18,8 +19,14 @@ func handleRequests() {
 }
 
 func main() {
-	db.NewDatabase(RedisAddr)
+	redis, err := db.NewDatabase(RedisAddr)
+	if err != nil {
+		panic("Database error")
+		return
+	}
+
 	api.InitApi()
 	web.InitWeb()
+	core.InitCore(redis)
 	handleRequests()
 }

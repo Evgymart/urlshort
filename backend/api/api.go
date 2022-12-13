@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"shorturl/backend/core"
-	"strconv"
+	"shorturl/backend/validation"
 )
 
 func InitApi() {
@@ -17,11 +17,24 @@ func storeUrl(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	fullUrl := request.FormValue("FullUrl")
-	expiresAfter := request.FormValue("ExpiresAfter")
-	expiresAfterInt, _ := strconv.ParseInt(expiresAfter, 0, 64)
+	fullUrl, expiresAfter, err := validation.ValidateStore(request)
+	if err != nil {
+		http.Error(writer, "Bad Request", http.StatusBadRequest)
+		return
+	}
 
-	urlData, _ := json.Marshal(core.BuildUrlData(fullUrl, expiresAfterInt))
+	data, err := core.BuildUrlData(fullUrl, expiresAfter)
+	if err != nil {
+		http.Error(writer, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	urlData, err := json.Marshal(data)
+	if err != nil {
+		http.Error(writer, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
 	writer.Header().Set("Content-Type", "application/json")
 	writer.Write([]byte(urlData))
 }

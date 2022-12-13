@@ -6,9 +6,17 @@ import (
 )
 
 func InitWeb() {
-	http.HandleFunc("/", homePage)
+	http.HandleFunc("/", webRoutine)
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the HomePage!")
+func webRoutine(writer http.ResponseWriter, request *http.Request) {
+	fmt.Printf("Req: %s %s\n", request.Host, request.URL.Path)
+	if request.URL.Path == "/" {
+		homePage(writer)
+		return
+	}
+}
+
+func homePage(writer http.ResponseWriter) {
+	fmt.Fprintf(writer, "Welcome to the HomePage!")
 }
