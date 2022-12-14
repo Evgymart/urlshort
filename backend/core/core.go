@@ -1,6 +1,7 @@
 package core
 
 import (
+	"errors"
 	"shorturl/backend/db"
 )
 
@@ -19,6 +20,10 @@ func InitCore(redis *db.Database) {
 }
 
 func BuildUrlData(fullUrl string, expiresAfter int64) (*UrlData, error) {
+	if !isUrlAlive(fullUrl) {
+		return nil, errors.New("Url is not alive")
+	}
+
 	shortUrlCode, err := db.WriteFullUrl(coreRedis, fullUrl)
 	if err != nil {
 		return nil, err
