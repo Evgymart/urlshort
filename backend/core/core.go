@@ -27,3 +27,12 @@ func BuildUrlData(fullUrl string, expiresAfter int64) (*UrlData, error) {
 	urlData := UrlData{fullUrl, shortUrl, expiresAfter}
 	return &urlData, nil
 }
+
+func GetRedirectUrl(code string) (string, error) {
+	fullUrl, err := db.ReadFullUrl(coreRedis, code)
+	if err != nil {
+		return "", err
+	}
+
+	return fullUrl, nil
+}
