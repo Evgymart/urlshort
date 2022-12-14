@@ -6,7 +6,7 @@ import (
 
 type UrlData struct {
 	FullUrl      string
-	ShortUrl     string
+	ShortUrlCode string
 	ExpiresAfter int64
 }
 
@@ -19,12 +19,12 @@ func InitCore(redis *db.Database) {
 }
 
 func BuildUrlData(fullUrl string, expiresAfter int64) (*UrlData, error) {
-	shortUrl, err := db.WriteFullUrl(coreRedis, fullUrl)
+	shortUrlCode, err := db.WriteFullUrl(coreRedis, fullUrl)
 	if err != nil {
 		return nil, err
 	}
 
-	urlData := UrlData{fullUrl, shortUrl, expiresAfter}
+	urlData := UrlData{fullUrl, shortUrlCode, expiresAfter}
 	return &urlData, nil
 }
 
