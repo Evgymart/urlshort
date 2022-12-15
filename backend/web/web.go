@@ -12,7 +12,6 @@ func InitWeb() {
 }
 
 func webRoutine(writer http.ResponseWriter, request *http.Request) {
-	fmt.Printf("Req: %s %s\n", request.Host, request.URL.Path)
 	if request.URL.Path == "/" {
 		homePage(writer)
 		return
@@ -20,7 +19,6 @@ func webRoutine(writer http.ResponseWriter, request *http.Request) {
 
 	code := strings.TrimPrefix(request.URL.Path, "/")
 	redirectUrl, err := core.GetRedirectUrl(code)
-	fmt.Printf("Redirect URL: %s\n", redirectUrl)
 	if err != nil {
 		http.Error(writer, "Bad Request", http.StatusBadRequest)
 		return

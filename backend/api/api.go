@@ -17,24 +17,26 @@ func storeUrl(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	var responseMessage []byte
 	fullUrl, expiresAfter, err := validation.ValidateStore(request)
 	if err != nil {
-		http.Error(writer, "Bad Request", http.StatusBadRequest)
+		responseMessage, _ = json.Marshal(core.HandleError(err))
+		writeResponse(writer, responseMessage)
 		return
 	}
 
 	data, err := core.BuildUrlData(fullUrl, expiresAfter)
 	if err != nil {
-		http.Error(writer, "Bad Request", http.StatusBadRequest)
+		responseMessage, _ = json.Marshal(core.HandleError(err))
+		writeResponse(writer, responseMessage)
 		return
 	}
 
-	urlData, err := json.Marshal(data)
-	if err != nil {
-		http.Error(writer, "Bad Request", http.StatusBadRequest)
-		return
-	}
+	responseMessage, _ = json.Marshal(data)
+	writeResponse(writer, responseMessage)
+}
 
+func writeResponse(writer http.ResponseWriter, responseMessage []byte) {
 	writer.Header().Set("Content-Type", "application/json")
-	writer.Write([]byte(urlData))
+	writer.Write(responseMessage)
 }
