@@ -12,7 +12,7 @@ func ReadFullUrl(db *Database, code string) (string, error) {
 }
 
 func generateRandomUrl() string {
-	const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	const size = 16
 	bytes := make([]byte, size)
 	for i := range bytes {
