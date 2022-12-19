@@ -1,32 +1,26 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"shorturl/backend/api"
-	"shorturl/backend/core"
-	"shorturl/backend/db"
-	"shorturl/backend/web"
+	"shorturl/backend/app"
+	"shorturl/backend/config"
 )
 
 var (
-	ListenAddr = ":80"
-	RedisAddr  = "redis:6379"
+	HttpAddr  = ":80"
+	RedisAddr = "redis:6379"
 )
 
-func handleRequests() {
-	log.Fatal(http.ListenAndServe(ListenAddr, nil))
-}
-
 func main() {
-	redis, err := db.NewDatabase(RedisAddr)
+	settings := config.Settings{
+		HttpAddr:  HttpAddr,
+		RedisAddr: RedisAddr,
+	}
+
+	app, err := app.NewApp(settings)
 	if err != nil {
-		panic("Database error")
+		panic(err.Error())
 		return
 	}
 
-	api.InitApi()
-	web.InitWeb()
-	core.InitCore(redis)
-	handleRequests()
+	app.Start()
 }

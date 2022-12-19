@@ -4,8 +4,8 @@ import (
 	"net/http"
 )
 
-func InitApi() {
-	http.HandleFunc("/api/store", storeUrl)
+func InitApi(mux *http.ServeMux) {
+	mux.HandleFunc("/api/store", storeUrl)
 }
 
 func writeResponse(writer http.ResponseWriter, responseMessage []byte) {

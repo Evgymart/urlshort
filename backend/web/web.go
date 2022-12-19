@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-func InitWeb() {
-	http.HandleFunc("/", webRoutine)
+func InitWeb(mux *http.ServeMux) {
+	mux.HandleFunc("/", webRoutine)
 }
 
 func webRoutine(writer http.ResponseWriter, request *http.Request) {
