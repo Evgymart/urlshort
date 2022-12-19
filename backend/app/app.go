@@ -22,19 +22,16 @@ func NewApp(settings config.Settings) (*App, error) {
 	}
 
 	mux := http.NewServeMux()
-	api.InitApi(mux)
-	web.InitWeb(mux)
-	core.InitCore(redis)
-
-	app := App{
+	return &App{
 		DB:       redis,
 		Mux:      mux,
 		Settings: &settings,
-	}
-
-	return &app, nil
+	}, nil
 }
 
 func (app *App) Start() {
+	api.InitApi(app.Mux)
+	web.InitWeb(app.Mux)
+	core.InitCore(app.DB)
 	http.ListenAndServe(app.Settings.HttpAddr, app.Mux)
 }
