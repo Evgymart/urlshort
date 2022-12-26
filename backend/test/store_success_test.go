@@ -11,9 +11,8 @@ import (
 )
 
 func TestSuccessfulStore(t *testing.T) {
-	fullUrl := "http://127.0.0.1:8000/"
+	fullUrl := buildUrl(HttpAddrTest)
 	var expiresAfter int64 = 0
-
 	data := url.Values{
 		"FullUrl":      {fullUrl},
 		"ExpiresAfter": {fmt.Sprint(expiresAfter)},
@@ -21,8 +20,7 @@ func TestSuccessfulStore(t *testing.T) {
 
 	app := initTest(t)
 	go app.Start()
-	response, err := http.PostForm("http://127.0.0.1:8000/api/store", data)
-
+	response, err := http.PostForm(buildUrlPath(HttpAddrTest, "api/store"), data)
 	if err != nil {
 		t.Fatalf("Error during store: %s", err.Error())
 	}
@@ -43,5 +41,18 @@ func TestSuccessfulStore(t *testing.T) {
 		t.Fatalf("Bad response data: %s", responseBody)
 	}
 
-	t.Log("Store test successful")
+	client := &http.Client{
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
+
+	response, err = client.Get(buildUrlPath(HttpAddrTest, urlData.ShortUrlCode))
+	if err != nil {
+		t.Fatalf("Error during check redirect: %s", err.Error())
+	}
+
+	if response.StatusCode != http.StatusFound || response.Header["Location"][0] != fullUrl {
+		t.Fatalf("Redirect check failed, code: %d", response.StatusCode)
+	}
 }

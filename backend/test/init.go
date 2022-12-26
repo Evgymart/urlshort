@@ -27,3 +27,11 @@ func initTest(t *testing.T) *app.App {
 
 	return app
 }
+
+func buildUrl(addr string) string {
+	return "http://" + addr + "/"
+}
+
+func buildUrlPath(addr string, path string) string {
+	return "http://" + addr + "/" + path
+}
