@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"net/http"
 	"shorturl/backend/core"
 	"strings"
@@ -13,7 +12,7 @@ func InitWeb(mux *http.ServeMux) {
 
 func webRoutine(writer http.ResponseWriter, request *http.Request) {
 	if request.URL.Path == "/" {
-		homePage(writer)
+		startPage(writer, request)
 		return
 	}
 
@@ -25,8 +24,4 @@ func webRoutine(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	http.Redirect(writer, request, redirectUrl, http.StatusFound)
-}
-
-func homePage(writer http.ResponseWriter) {
-	fmt.Fprintf(writer, "Welcome to the HomePage!")
 }
