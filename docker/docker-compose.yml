@@ -13,7 +13,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ../backend/:/opt/app/api
+      - ../src/:/opt/app/api
     networks:
       - app-network
   redis:
