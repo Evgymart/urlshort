@@ -1,6 +1,7 @@
 package main
 
 import (
+	"path/filepath"
 	"shorturl/backend/app"
 	"shorturl/backend/config"
 )
@@ -16,6 +17,12 @@ func main() {
 		RedisAddr: RedisAddr,
 	}
 
+	root, _ := filepath.Abs(".")
+	path := config.Path{
+		AppRoot: root,
+	}
+
+	config.InitPath(&path)
 	app, err := app.NewApp(settings)
 	if err != nil {
 		panic(err.Error())

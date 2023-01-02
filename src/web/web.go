@@ -8,6 +8,10 @@ import (
 
 func InitWeb(mux *http.ServeMux) {
 	mux.HandleFunc("/", webRoutine)
+	mux.Handle("/assets/css/", http.FileServer(http.Dir(".")))
+	mux.HandleFunc("/favicon.ico", func(writer http.ResponseWriter, reader *http.Request) {
+		http.ServeFile(writer, reader, "assets/favicon.ico")
+	})
 }
 
 func webRoutine(writer http.ResponseWriter, request *http.Request) {

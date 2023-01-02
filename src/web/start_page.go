@@ -3,13 +3,11 @@ package web
 import (
 	"html/template"
 	"net/http"
-	"path/filepath"
+	"shorturl/backend/config"
 )
 
 func startPage(writer http.ResponseWriter, request *http.Request) {
-	// fmt.Fprintf(writer, "Hello, world!")
-
-	filePrefix, _ := filepath.Abs("./web/templates")
-	template := template.Must(template.ParseFiles(filePrefix + "/start_page.html"))
+	root := config.GetPath().AppRoot
+	template := template.Must(template.ParseFiles(root + "/web/templates/start_page.html"))
 	template.Execute(writer, nil)
 }

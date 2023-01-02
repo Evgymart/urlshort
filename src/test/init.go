@@ -1,6 +1,7 @@
 package test
 
 import (
+	"path/filepath"
 	"shorturl/backend/app"
 	"shorturl/backend/config"
 	"testing"
@@ -19,6 +20,12 @@ func initTest(t *testing.T) *app.App {
 		RedisAddr: redisServer.Addr(),
 	}
 
+	root, _ := filepath.Abs("..")
+	path := config.Path{
+		AppRoot: root,
+	}
+
+	config.InitPath(&path)
 	app, err := app.NewApp(settings)
 	if err != nil {
 		t.Errorf("Error during init: %s", err.Error())
