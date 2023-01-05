@@ -34,7 +34,7 @@ body {
 	padding: 12px 0;
 }
 
-#url-short input[type=text]{
+#url-short input[type=text] {
 	margin-bottom: 10px;
 	border-radius: 3px;
 	border: 2px solid transparent;
@@ -59,4 +59,26 @@ body {
 	margin: auto;
 	line-height: 0;
 	box-shadow: none;
+}
+
+#message-container {
+	margin: auto;
+	padding: 5px;
+	width: 70%;
+	font-size: 18px;
+	line-height: 0;
+	border: 3px solid transparent;
+}
+
+#message-container .success-message {
+	color: #777777;
+}
+
+#message-container .error-message {
+	color: #ee7777;
+}
+
+#message-container a {
+	color: #445566;
+	text-decoration: none;
 }
