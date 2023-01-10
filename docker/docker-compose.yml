@@ -6,6 +6,7 @@ networks:
 
 services:
   app:
+    container_name: app
     build:
       dockerfile: Dockerfile
       context: .
@@ -17,6 +18,7 @@ services:
     networks:
       - app-network
   redis:
+    container_name: app_redis
     image: 'bitnami/redis:latest'
     platform: linux/amd64
     environment:
