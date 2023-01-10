@@ -21,7 +21,7 @@ func InitCore(redis *db.Database) {
 
 func BuildUrlData(fullUrl string, expiresAfter int64) (*UrlData, error) {
 	if !isUrlAlive(fullUrl) {
-		return nil, errors.New("Url is not alive")
+		return nil, errors.New("Url is not alive: " + fullUrl)
 	}
 
 	shortUrlCode, err := db.WriteFullUrl(coreRedis, fullUrl)

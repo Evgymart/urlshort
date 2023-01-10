@@ -9,15 +9,23 @@
 	<div id="url-short">
 		<div id="form-container">
 			<h1>Enter your url</h1>
-			<form action="">
-				<input type="text">
+			<form action="" method="POST">
+				<input type="text" name="FullUrl">
 				<input type="submit" value="Go" class="btn">
 			</form>
 		</div>
-		<div id="message-container">
-			<p class="success-message">Your short url: <a href="https://google.com" target="_blank">google.com</a></p>
-			<p class="error-message">Error occured: UNKNOWN</p>
-		</div>
+		{{ if .ShowMessage }}
+			<div id="message-container">
+				{{ if .ShortUrl }}
+					<p class="success-message">Your short url:
+						<a href="{{ .ShortUrl }}" target="_blank">{{ .ShortUrl }}</a>
+					</p>
+				{{ end }}
+				{{ if .ErrorMessage }}
+					<p class="error-message">{{ .ErrorMessage }}</p>
+				{{ end }}
+			</div>
+		{{ end }}
 	</div>
 </body>
 </html>
