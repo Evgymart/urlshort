@@ -1,0 +1,9 @@
+# Server configurations
+server:
+  host: "app"
+  port: 80
+
+# Redis database credentials
+database:
+  host: "redis"
+  port: 8379

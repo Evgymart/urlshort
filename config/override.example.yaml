@@ -1,0 +1,4 @@
+# You can override your default config in your override.yaml confic.
+# You need to cp override.example.yaml override.yaml to start
+server:
+  port: 8888

@@ -22,6 +22,9 @@ func main() {
 		AppRoot: root,
 	}
 
+	configPath, _ := filepath.Abs("../config")
+	config.Initialize(configPath)
+
 	config.InitPath(&path)
 	app, err := app.NewApp(settings)
 	if err != nil {

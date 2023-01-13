@@ -14,7 +14,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ../src/:/opt/app/api
+      - ../src/:/opt/app/src
+      - ../config/:/opt/app/config
     networks:
       - app-network
   redis:
