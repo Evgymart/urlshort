@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"shorturl/backend/config"
 	"shorturl/backend/core"
 	"testing"
 )
@@ -20,7 +21,7 @@ func TestErrorStore(t *testing.T) {
 
 	app := initTest(t)
 	go app.Start()
-	response, err := http.PostForm(buildUrlPath(HttpAddrTest, "api/store"), data)
+	response, err := http.PostForm(buildUrlPath(config.GetServerAddr(), "api/store"), data)
 	if err != nil {
 		t.Fatalf("Error during store: %s", err.Error())
 	}

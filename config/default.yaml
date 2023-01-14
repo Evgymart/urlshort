@@ -6,4 +6,4 @@ server:
 # Redis database credentials
 database:
   host: "redis"
-  port: 8379
+  port: 6379

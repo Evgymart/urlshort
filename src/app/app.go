@@ -10,22 +10,20 @@ import (
 )
 
 type App struct {
-	DB       *db.Database
-	Mux      *http.ServeMux
-	Settings *config.Settings
+	DB  *db.Database
+	Mux *http.ServeMux
 }
 
-func NewApp(settings config.Settings) (*App, error) {
-	redis, err := db.NewDatabase(settings.RedisAddr)
+func NewApp() (*App, error) {
+	redis, err := db.NewDatabase(config.GetDatabaseAddr())
 	if err != nil {
 		return nil, err
 	}
 
 	mux := http.NewServeMux()
 	return &App{
-		DB:       redis,
-		Mux:      mux,
-		Settings: &settings,
+		DB:  redis,
+		Mux: mux,
 	}, nil
 }
 
@@ -33,5 +31,5 @@ func (app *App) Start() {
 	api.InitApi(app.Mux)
 	web.InitWeb(app.Mux)
 	core.InitCore(app.DB)
-	http.ListenAndServe(app.Settings.HttpAddr, app.Mux)
+	http.ListenAndServe(config.GetServerAddr(), app.Mux)
 }

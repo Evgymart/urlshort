@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 
 	"gopkg.in/yaml.v3"
 )
@@ -40,4 +41,16 @@ func loadConfig(path string) {
 
 func GetConfig() *Config {
 	return cfg
+}
+
+func SetConfig(config *Config) {
+	cfg = config
+}
+
+func GetDatabaseAddr() string {
+	return cfg.Database.Host + ":" + strconv.Itoa(cfg.Database.Port)
+}
+
+func GetServerAddr() string {
+	return cfg.Server.Host + ":" + strconv.Itoa(cfg.Server.Port)
 }

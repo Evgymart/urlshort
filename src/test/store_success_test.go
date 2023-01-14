@@ -6,12 +6,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"shorturl/backend/config"
 	"shorturl/backend/core"
 	"testing"
 )
 
 func TestSuccessfulStore(t *testing.T) {
-	fullUrl := buildUrl(HttpAddrTest)
+	fullUrl := buildUrl(config.GetServerAddr())
 	var expiresAfter int64 = 0
 	data := url.Values{
 		"FullUrl":      {fullUrl},
@@ -20,7 +21,7 @@ func TestSuccessfulStore(t *testing.T) {
 
 	app := initTest(t)
 	go app.Start()
-	response, err := http.PostForm(buildUrlPath(HttpAddrTest, "api/store"), data)
+	response, err := http.PostForm(buildUrlPath(config.GetServerAddr(), "api/store"), data)
 	if err != nil {
 		t.Fatalf("Error during store: %s", err.Error())
 	}
@@ -47,7 +48,7 @@ func TestSuccessfulStore(t *testing.T) {
 		},
 	}
 
-	response, err = client.Get(buildUrlPath(HttpAddrTest, urlData.ShortUrlCode))
+	response, err = client.Get(buildUrlPath(config.GetServerAddr(), urlData.ShortUrlCode))
 	if err != nil {
 		t.Fatalf("Error during check redirect: %s", err.Error())
 	}
