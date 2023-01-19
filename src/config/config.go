@@ -54,3 +54,7 @@ func GetDatabaseAddr() string {
 func GetServerAddr() string {
 	return cfg.Server.Host + ":" + strconv.Itoa(cfg.Server.Port)
 }
+
+func GetServerUrl(path string) string {
+	return "http://" + GetServerAddr() + "/" + path
+}

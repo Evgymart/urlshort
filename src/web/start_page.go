@@ -45,7 +45,7 @@ func storeUrlAttempt(fullUrl string) StartPageTemplate {
 		"ExpiresAfter": {fmt.Sprint(expiresAfter)},
 	}
 
-	response, err := http.PostForm("http://127.0.0.1/api/store", data)
+	response, err := http.PostForm(config.GetServerUrl("api/store"), data)
 	if err != nil {
 		panic(fmt.Sprintf("Error: %s\n", err))
 	}
